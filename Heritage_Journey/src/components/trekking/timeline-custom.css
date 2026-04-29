@@ -1,0 +1,29 @@
+/* Custom styles for vertical timeline */
+
+.custom-timeline .vertical-timeline-element-date,
+.custom-timeline-date {
+  font-size: 1.875rem !important; /* text-3xl */
+  font-weight: 700 !important; /* font-bold */
+  color: #795548 !important; /* text-heritage-brown (adjust this color to match your heritage-brown color) */
+  margin-bottom: 1rem !important; /* mb-8 */
+  opacity: 1 !important;
+}
+
+/* Make the dates stand out more */
+.custom-timeline .vertical-timeline-element-content {
+  margin-left: -1px;
+}
+
+.custom-timeline .vertical-timeline-element:nth-child(even):not(.vertical-timeline-element--left) .vertical-timeline-element-content, 
+.custom-timeline .vertical-timeline-element.vertical-timeline-element--right .vertical-timeline-element-content {
+  margin-right: 1px;
+}
+
+/* Responsive adjustments for mobile */
+@media only screen and (max-width: 1169px) {
+  .custom-timeline .vertical-timeline-element-date {
+    font-size: 1.5rem !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+}

@@ -1,0 +1,41 @@
+
+/* Remove conflicting styles from App.css */
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+/* Infinite Scroll Animation - Faces of Nepal */
+.animate-scroll-left {
+  animation: scrollLeft 35s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scrollRight 40s linear infinite;
+}
+
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
