@@ -1,103 +1,105 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+/* ── DESIGN TOKENS (same as Hero) ─────────────────── */
+const C = {
+  ink: '#0c1626',
+  snow: '#f3f6f9',
+  saffron: '#f5a81c',
+  flagRed: '#d63a32',
+};
+
+const HEADING_FONT = "'Outfit', 'Helvetica Neue', Arial, sans-serif";
+const BODY_FONT = "'Hind', system-ui, -apple-system, 'Segoe UI', sans-serif";
 
 const ethnicGroups = [
-  { name: "Festive", imagePath: "images/faces/festive.jpg"},
-  { name: "Sherpa", imagePath: "/images/faces/sherpa.jpg" },
-  { name: "Tamang", imagePath: "/images/faces/tamang.jpg" },
-  { name: "Newar", imagePath: "/images/faces/newar.jpg" },
-  { name: "Brahman-Chhetri", imagePath: "/images/faces/brahman.jpg" },
-  { name: "Magar", imagePath: "/images/faces/magar.jpg" },
-  { name: "Tharu", imagePath: "/images/faces/tharu.jpg" },
-  { name: "Madhesi", imagePath: "/images/faces/madhesi.jpg" },
+  { name: 'Sherpa', imagePath: '/images/faces/sherpa.jpg', region: 'Himalayas', desc: 'Guardians of Everest' },
+  { name: 'Newar', imagePath: '/images/faces/newar.jpg', region: 'Kathmandu Valley', desc: 'Masters of Art & Craft' },
+  { name: 'Festive', imagePath: '/images/faces/festive.jpg', region: 'Across Nepal', desc: 'Soul of Festivals' },
+  { name: 'Madhesi', imagePath: '/images/faces/madhesi.jpg', region: 'Terai Plains', desc: 'Vibrant Plains Culture' },
+  { name: 'Tamang', imagePath: '/images/faces/tamang.jpg', region: 'Hills', desc: 'Music & Tradition' },
+  { name: 'Tharu', imagePath: '/images/faces/tharu.jpg', region: 'Terai', desc: 'Indigenous Pride' },
+  { name: 'Magar', imagePath: '/images/faces/magar.jpg', region: 'Mid-Hills', desc: 'Brave Warriors' },
+  { name: 'Brahman-Chhetri', imagePath: '/images/faces/brahman.jpg', region: 'Hills', desc: 'Keepers of Knowledge' },
 ];
 
 const FacesOfNepal = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleImageError = (e) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.src = '/placeholder.svg';
   };
 
   return (
-    <section className="bg-[#fffaf0] py-20 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Title */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-6xl md:text-7xl font-bold text-[#9c2a2a] tracking-tight">Faces of Nepal</h2>
-          <p className="text-4xl font-serif text-orange-700 mt-3">Where Every Smile Tells a Story</p>
-        </motion.div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Hind:wght@400;500;600&display=swap');
+      `}</style>
 
-        {loading ? (
-          <div className="h-96 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-20 w-20 border-4 border-[#9c2a2a] border-t-transparent"></div>
+      <section
+        aria-labelledby="faces-heading"
+        style={{ backgroundColor: C.snow, color: C.ink, fontFamily: BODY_FONT }}
+      >
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-24">
+          {/* Heading */}
+          <div className="mb-10 lg:mb-14">
+            <h2
+              id="faces-heading"
+              style={{
+                fontFamily: HEADING_FONT,
+                fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+                fontWeight: 600,
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+              }}
+              className="mb-4"
+            >
+              Faces of Nepal
+            </h2>
+            <p className="text-[17px] sm:text-lg" style={{ color: 'rgba(12,22,38,0.65)' }}>
+              Our beautiful diversity
+            </p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-            {ethnicGroups.map((group, index) => (
-              <motion.div
-                key={group.name}
-                initial={{ opacity: 0, scale: 0.7, y: 60 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.12 }}
-                whileHover={{ 
-                  scale: 1.08, 
-                  y: -12,
-                  transition: { duration: 0.4 }
-                }}
-                viewport={{ once: true }}
-                className="relative group cursor-pointer"
-              >
-                <div className="relative overflow-hidden rounded-3xl shadow-2xl aspect-[4/5] 
-                              ring-1 ring-orange-100 hover:ring-orange-300 transition-all duration-500">
 
-                  <img 
+          {/* Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 items-start gap-x-4 sm:gap-x-6 gap-y-10">
+            {ethnicGroups.map((group) => (
+              <div key={group.name}>
+                {/* Same-size frame for every photo, filled edge to edge.
+                    object-top keeps faces in view; edges may be trimmed if a photo isn't 4:5. */}
+                <div className="aspect-[4/5] w-full overflow-hidden mb-4">
+                  <img
                     src={group.imagePath}
                     alt={group.name}
                     onError={handleImageError}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                    className="w-full h-full object-cover object-top block"
                   />
-
-                  {/* Hover Overlay with Name */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent 
-                                  opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-8">
-                    <div>
-                      <p className="text-white text-4xl font-bold tracking-wide">
-                        {group.name}
-                      </p>
-                      <div className="mt-2 h-1 w-12 bg-orange-400 rounded-full"></div>
-                    </div>
-                  </div>
-
-                  {/* Glow Effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-400 via-rose-400 to-purple-500 
-                                  opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500 -z-10 rounded-3xl"></div>
                 </div>
-              </motion.div>
+
+                <h3
+                  style={{ fontFamily: HEADING_FONT, letterSpacing: '-0.02em' }}
+                  className="text-[1.3rem] sm:text-[1.5rem] font-semibold leading-tight"
+                >
+                  {group.name}
+                </h3>
+                <p className="text-[14px] sm:text-[15px] mt-1" style={{ color: C.flagRed }}>
+                  {group.region}
+                </p>
+                <p
+                  className="text-[15px] sm:text-[16px] leading-snug mt-1"
+                  style={{ color: 'rgba(12,22,38,0.75)' }}
+                >
+                  {group.desc}
+                </p>
+              </div>
             ))}
           </div>
-        )}
 
-        {/* Quote */}
-        <motion.p 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="text-center mt-20 text-[#9c2a2a] italic text-2xl max-w-3xl mx-auto font-serif"
-        >
-          "Unity in diversity is the strength of Nepal, where hundreds of ethnicities come together to form one beautiful nation."
-        </motion.p>
-      </div>
-    </section>
+          <p
+            className="mt-14 text-[17px] sm:text-lg"
+            style={{ color: 'rgba(12,22,38,0.75)' }}
+          >
+            Many faces, one beautiful Nepal.
+          </p>
+        </div>
+      </section>
+    </>
   );
 };
 

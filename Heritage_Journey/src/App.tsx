@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -20,6 +19,7 @@ import EverestBaseCampTrek from './pages/trekking/EverestBaseCampTrek';
 import LangtangHimalTrek from './pages/trekking/LangtangHimalTrek';
 import UpperMustang from './pages/trekking/UpperMustang';
 import ShortDurationTreks from './pages/trekking/ShortDurationTreks';
+import ManasluCircuitTrek from './pages/trekking/ManasluCircuitTrek';
 import MicePage from './pages/mice';
 import MiceDetail from './pages/mice/MiceDetail';
 import Pages from "./pages/admin/Pages";
@@ -36,6 +36,8 @@ import EmergencyNotices from "./pages/admin/EmergencyNotices";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import GalleryPage from "./pages/Gallery";
 import ScrollToTop from "./components/ScrollToTop";
+import VideosPage from './pages/VideosPage';
+import Tours from './components/Tours'; // ← ADDED THIS
 
 const queryClient = new QueryClient();
 
@@ -45,7 +47,8 @@ const App = () => {
       <AuthProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />          <EmergencyNotice />
+          <Sonner />
+          <EmergencyNotice />
           <BrowserRouter>
             <ScrollToTop />
             <Routes>
@@ -61,11 +64,14 @@ const App = () => {
               <Route path="/trekking/langtang-himal-trek" element={<LangtangHimalTrek />} />
               <Route path="/trekking/upper-mustang" element={<UpperMustang />} />
               <Route path="/trekking/short-duration-treks" element={<ShortDurationTreks />} />
+              <Route path="/trekking/manaslu-circuit-trek" element={<ManasluCircuitTrek />} />
               <Route path="/mice-tours" element={<MicePage />} />
               <Route path="/mice-tours/:slug" element={<MiceDetail />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/videos" element={<VideosPage />} />
+              <Route path="/tours" element={<Tours />} /> {/* ← ADDED THIS */}
 
               {/* Admin Routes */}
               <Route path="/admin" element={
@@ -93,19 +99,16 @@ const App = () => {
                   <Media />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/pages" element={
                 <ProtectedRoute requireEditor>
                   <Pages />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/pages/:id" element={
                 <ProtectedRoute requireEditor>
                   <PageEditor />
                 </ProtectedRoute>
               } />
-
               <Route path="/admin/settings" element={
                 <ProtectedRoute requireAdmin>
                   <Settings />

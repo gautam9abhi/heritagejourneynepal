@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion';   // ← Added this
+import { Menu, X, Calendar } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const Navbar = () => {
+interface NavbarProps {
+  onBookNow: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onBookNow }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -28,14 +32,14 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Destinations', path: '/destinations' },
+    { name: 'Tours', path: '/tours' },           // ← Added
     { name: 'Trekking', path: '/trekking' },
     { name: 'MICE', path: '/mice-tours' },
     { name: 'About Us', path: '/about' },
     { name: 'Contact', path: '/contact' },
     { name: 'Gallery', path: '/gallery' },
+ 
   ];
-
-  const googleFormLink = "https://docs.google.com/forms/d/e/1FAIpQLSc71C6J6pFkLcYmP4uuEo9sHXglwK4WiTj_WOvAW32qx4vQYQ/viewform?usp=dialog";
 
   return (
     <nav 
@@ -85,17 +89,16 @@ const Navbar = () => {
             </div>
           ))}
 
-          {/* Book Now Button - Added Here */}
-          <motion.a
-            href={googleFormLink}
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Book Now Button */}
+          <motion.button
+            onClick={onBookNow}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-[#FDFBD4] hover:bg-[#7f1f1f] text-black font-semibold px-7 py-2.5 rounded-2xl text-sm transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2"
+            className="bg-[#FDFBD4] hover:bg-[#7f1f1f] hover:text-white text-black font-semibold px-7 py-2.5 rounded-2xl text-sm transition-all duration-300 shadow-md hover:shadow-xl flex items-center gap-2"
           >
-            Book here!
-          </motion.a>
+            <Calendar className="h-4 w-4" />
+            Book Now
+          </motion.button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -116,7 +119,7 @@ const Navbar = () => {
         ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}
       `}>
         <div className="flex flex-col h-full mt-24 px-8 pb-8 overflow-y-auto">
-          {navLinks.map((link, index) => (
+          {navLinks.map((link) => (
             <Link 
               key={link.name}
               to={link.path} 
@@ -127,16 +130,16 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Book Now in Mobile Menu */}
-          <a
-            href={googleFormLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={closeMenu}
-            className="mt-8 bg-[#FDFBD4] text-black font-semibold py-4 px-8 rounded-2xl text-center text-lg flex items-center justify-center gap-3"
+          <button
+            onClick={() => {
+              closeMenu();
+              onBookNow();
+            }}
+            className="mt-8 bg-[#FDFBD4] hover:bg-orange-600 hover:text-white text-black font-semibold py-4 px-8 rounded-2xl text-center text-lg flex items-center justify-center gap-3"
           >
-             Book Here!
-          </a>
+            <Calendar className="h-5 w-5" />
+            Book Now
+          </button>
         </div>
       </div>
     </nav>
